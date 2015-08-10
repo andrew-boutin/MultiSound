@@ -9,28 +9,45 @@ android:padding="10dp"
     android:id="@+id/tvName"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingLeft="10dp"
-    android:paddingRight="6dp"
     android:text="Name"
-    android:textAppearance="?android:attr/textAppearanceLarge" />
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:layout_alignParentTop="true"
+    android:layout_toLeftOf="@+id/tvID"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true" />
 
 <TextView
     android:id="@+id/tvFile"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignBaseline="@+id/tvName"
-    android:layout_toRightOf="@+id/tvName"
-    android:paddingRight="6dp"
     android:text="File"
-    android:textAppearance="?android:attr/textAppearanceLarge"/>
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:layout_below="@+id/tvName"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_toLeftOf="@+id/tvID"
+    android:layout_toStartOf="@+id/tvID" />
 
 <TextView
     android:id="@+id/tvID"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignBottom="@+id/tvName"
-    android:layout_toRightOf="@+id/tvFile"
-    android:text="San Marco"
-    android:textAppearance="?android:attr/textAppearanceLarge" />
+    android:text="ID"
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:layout_alignParentTop="true"
+    android:layout_toLeftOf="@+id/deleteButton"
+    android:layout_toStartOf="@+id/deleteButton"
+    android:layout_alignBottom="@+id/deleteButton"
+    android:gravity="center_vertical" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:id="@+id/deleteButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText nameEdit, fileEdit;
     private TextView nameText, fileText;
 
-    // TODO: Show all sounds on load
     // TODO: Delete sound
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         sounds = new ArrayList<>();
 
         soundAdapter = new SoundAdapter(this, sounds);
+
+        populateSounds();
 
         soundListView = (ListView)findViewById(R.id.soundListView);
         soundListView.setAdapter(soundAdapter);
@@ -59,19 +60,25 @@ public class MainActivity extends AppCompatActivity {
         nameText = (TextView)findViewById(R.id.nameView);
         fileText = (TextView)findViewById(R.id.fileView);
 
-        ArrayList<Sound> sounds = dbHandler.getAllSounds();
+        setAppColors();
+    }
+
+    private void populateSounds(){
+        sounds = dbHandler.getAllSounds();
 
         for(Sound sound: sounds)
             soundAdapter.add(sound);
+    }
 
+    private void setAppColors(){
         soundListView.getRootView().setBackgroundColor(getResources().getColor(android.R.color.black));
 
+        View[] views = new View[]{nameEdit, fileEdit, nameText, fileText, soundListView};
+
         Resources resources = getResources();
-        nameEdit.setBackgroundColor(resources.getColor(android.R.color.holo_green_dark));
-        fileEdit.setBackgroundColor(resources.getColor(android.R.color.holo_green_dark));
-        nameText.setBackgroundColor(resources.getColor(android.R.color.holo_green_dark));
-        fileText.setBackgroundColor(resources.getColor(android.R.color.holo_green_dark));
-        soundListView.setBackgroundColor(resources.getColor(android.R.color.holo_green_dark));
+
+        for(View view: views)
+            view.setBackgroundColor(resources.getColor(android.R.color.holo_green_dark));
     }
 
     @Override
