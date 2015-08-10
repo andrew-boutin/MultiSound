@@ -14,8 +14,16 @@ public class Sound {
         this.id = id;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
     public String getName(){
         return name;
+    }
+
+    public void setFileName(String fileName){
+        this.fileName = fileName;
     }
 
     public String getFileName(){

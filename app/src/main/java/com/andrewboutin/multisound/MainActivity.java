@@ -3,19 +3,24 @@ package com.andrewboutin.multisound;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
+// TODO: Don't allow duplicate names
 public class MainActivity extends AppCompatActivity {
     private Button addSoundButton;
     private ListView soundListView;
@@ -25,7 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText nameEdit, fileEdit;
     private TextView nameText, fileText;
 
-    // TODO: Delete sound
+    // TODO: Comments
+    // TODO: Default sound
+    // TODO: Widget
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +48,19 @@ public class MainActivity extends AppCompatActivity {
 
         soundListView = (ListView)findViewById(R.id.soundListView);
         soundListView.setAdapter(soundAdapter);
+        soundListView.setItemsCanFocus(true);
 
         addSoundButton = (Button)findViewById(R.id.addSoundButton);
         addSoundButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                String name = nameEdit.getText().toString();
+                String file = fileEdit.getText().toString();
+
+                if(name.equals("") || file.equals("")){
+                    Toast.makeText(v.getContext(), "Requires a name and file!",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 Sound sound = dbHandler.createSound(nameEdit.getText().toString(),
                                                     fileEdit.getText().toString());

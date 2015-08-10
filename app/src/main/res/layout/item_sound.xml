@@ -12,32 +12,11 @@ android:padding="10dp"
     android:text="Name"
     android:textAppearance="?android:attr/textAppearanceLarge"
     android:layout_alignParentTop="true"
-    android:layout_toLeftOf="@+id/tvID"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true" />
-
-<TextView
-    android:id="@+id/tvFile"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="File"
-    android:textAppearance="?android:attr/textAppearanceLarge"
-    android:layout_below="@+id/tvName"
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
-    android:layout_toLeftOf="@+id/tvID"
-    android:layout_toStartOf="@+id/tvID" />
-
-<TextView
-    android:id="@+id/tvID"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="ID"
-    android:textAppearance="?android:attr/textAppearanceLarge"
-    android:layout_alignParentTop="true"
-    android:layout_toLeftOf="@+id/deleteButton"
-    android:layout_toStartOf="@+id/deleteButton"
     android:layout_alignBottom="@+id/deleteButton"
+    android:layout_toLeftOf="@+id/editButton"
+    android:layout_toStartOf="@+id/editButton"
     android:gravity="center_vertical" />
 
     <Button
@@ -49,5 +28,15 @@ android:padding="10dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EDIT"
+        android:id="@+id/editButton"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/deleteButton"
+        android:layout_toStartOf="@+id/deleteButton" />
 
 </RelativeLayout>

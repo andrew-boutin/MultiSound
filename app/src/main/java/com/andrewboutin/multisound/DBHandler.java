@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 // TODO: upgrade and something else?
-
 /**
  * Created by Andrew on 8/9/2015.
  */
@@ -52,6 +51,19 @@ public class DBHandler {
     public void deleteSound(Sound sound){
         long id = sound.getId();
         db.delete(TABLE_SOUNDS, KEY_ID + " =?", new String[]{String.valueOf(id)});
+    }
+
+    public void updateSound(Sound sound){
+        ContentValues values = new ContentValues();
+
+        values.put(SOUND_NAME, sound.getName());
+        values.put(FILE_NAME, sound.getFileName());
+
+        // updating row
+        int numRowsAffected = db.update(TABLE_SOUNDS, values, KEY_ID + " = ?",
+                                        new String[]{ String.valueOf(sound.getId()) });
+
+        // TODO: If numRowsAffected != 1 - problem
     }
 
     public ArrayList<Sound> getAllSounds() {
