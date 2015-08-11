@@ -117,6 +117,7 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setTitle("Confirm deletion of '" + sound.getName() +"'");
 
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
