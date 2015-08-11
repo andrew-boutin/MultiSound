@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -57,7 +59,6 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
         return convertView;
     }
 
-    // TODO: Make alert edit file name as well
     private void setUpEditButton(View convertView, final Sound sound){
         Button editButton = (Button)convertView.findViewById(R.id.editButton);
         editButton.setOnClickListener(new View.OnClickListener(){
@@ -68,18 +69,36 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
 
                 final EditText nameEdit = new EditText(v.getContext());
                 nameEdit.setText(sound.getName());
+                final TextView nameView = new TextView(v.getContext());
+                nameView.setText(" Name: ");
+
+                LinearLayout linLayoutName = new LinearLayout(v.getContext());
+                linLayoutName.setOrientation(LinearLayout.HORIZONTAL);
+                linLayoutName.addView(nameView);
+                linLayoutName.addView(nameEdit);
 
                 final EditText fileEdit = new EditText(v.getContext());
                 fileEdit.setText(sound.getFileName());
+                final TextView fileView = new TextView(v.getContext());
+                fileView.setText(" File: ");
 
+                LinearLayout linLayoutFile = new LinearLayout(v.getContext());
+                linLayoutFile.setOrientation(LinearLayout.HORIZONTAL);
+                linLayoutFile.addView(fileView);
+                linLayoutFile.addView(fileEdit);
+
+                // TODO: Add textviews to show what is being edited - maybe use horizontal layouts inside the vertical layout.
                 LinearLayout lila1 = new LinearLayout(v.getContext());
                 lila1.setOrientation(LinearLayout.VERTICAL);
-                lila1.addView(nameEdit);
-                lila1.addView(fileEdit);
+                //lila1.addView(nameEdit);
+                //lila1.addView(fileEdit);
+
+                lila1.addView(linLayoutName);
+                lila1.addView(linLayoutFile);
 
                 builder.setView(lila1);
 
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String name = nameEdit.getText().toString();
@@ -119,7 +138,7 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setTitle("Confirm deletion of '" + sound.getName() +"'");
 
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         remove(sound);
