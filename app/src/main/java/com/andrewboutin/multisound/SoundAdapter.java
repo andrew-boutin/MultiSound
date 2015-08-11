@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +50,7 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
             public void onClick(View v){
                 // TODO: Play sound file
                 Toast.makeText(v.getContext(), "This will play the sound file!",
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -62,26 +63,36 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
         editButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(final View v){
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setTitle("Edit Sound");
 
                 final EditText nameEdit = new EditText(v.getContext());
-                nameEdit.setInputType(InputType.TYPE_CLASS_TEXT);
                 nameEdit.setText(sound.getName());
-                builder.setView(nameEdit);
+
+                final EditText fileEdit = new EditText(v.getContext());
+                fileEdit.setText(sound.getFileName());
+
+                LinearLayout lila1 = new LinearLayout(v.getContext());
+                lila1.setOrientation(LinearLayout.VERTICAL);
+                lila1.addView(nameEdit);
+                lila1.addView(fileEdit);
+
+                builder.setView(lila1);
 
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String name = nameEdit.getText().toString();
+                        String fileName = fileEdit.getText().toString();
 
-                        if(name.equals("")) {
-                            Toast.makeText(v.getContext(), "Requires a name!",
-                                    Toast.LENGTH_LONG).show();
+                        if (name.equals("") || fileName.equals("")) {
+                            Toast.makeText(v.getContext(), "Blank input not allowed!",
+                                    Toast.LENGTH_SHORT).show();
                             return;
                         }
 
                         sound.setName(name);
+                        sound.setFileName(fileName);
 
                         dbHandler.updateSound(sound);
 
@@ -95,12 +106,11 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
                     }
                 });
 
-                builder.show();
+                builder.create().show();
             }
         });
     }
 
-    // TODO: Make alert look good with just 2 buttons
     private void setUpDeleteButton(View convertView, final Sound sound){
         Button deleteButton = (Button)convertView.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(new View.OnClickListener(){

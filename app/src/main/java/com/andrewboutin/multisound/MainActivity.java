@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     // TODO: Comments
     // TODO: Default sound
     // TODO: Widget
+    // TODO: Come with one sound as an example
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(name.equals("") || file.equals("")){
                     Toast.makeText(v.getContext(), "Requires a name and file!",
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
 
