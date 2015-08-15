@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     // TODO: Comments
     // TODO: Default sound
-    // TODO: Widget
+    // TODO: ******Widget
     // TODO: Come with one sound as an example
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
 
                 soundAdapter.add(sound);
                 soundAdapter.notifyDataSetChanged();
+
+                Toast.makeText(v.getContext(), "Created " + sound.getName(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
 

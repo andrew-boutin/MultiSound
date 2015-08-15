@@ -65,7 +65,7 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
             @Override
             public void onClick(final View v){
                 final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setTitle("Edit Sound");
+                builder.setTitle("Edit " + sound.getName());
 
                 final EditText nameEdit = new EditText(v.getContext());
                 nameEdit.setText(sound.getName());
@@ -87,11 +87,8 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
                 linLayoutFile.addView(fileView);
                 linLayoutFile.addView(fileEdit);
 
-                // TODO: Add textviews to show what is being edited - maybe use horizontal layouts inside the vertical layout.
                 LinearLayout lila1 = new LinearLayout(v.getContext());
                 lila1.setOrientation(LinearLayout.VERTICAL);
-                //lila1.addView(nameEdit);
-                //lila1.addView(fileEdit);
 
                 lila1.addView(linLayoutName);
                 lila1.addView(linLayoutFile);
@@ -116,6 +113,9 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
                         dbHandler.updateSound(sound);
 
                         notifyDataSetChanged();
+
+                        Toast.makeText(v.getContext(), "Edited " + sound.getName(),
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -134,9 +134,9 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
         Button deleteButton = (Button)convertView.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setTitle("Confirm deletion of '" + sound.getName() +"'");
+                builder.setTitle("Delete " + sound.getName());
 
                 builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
@@ -144,6 +144,9 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
                         remove(sound);
                         dbHandler.deleteSound(sound);
                         notifyDataSetChanged();
+
+                        Toast.makeText(v.getContext(), "Deleted " + sound.getName(),
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
