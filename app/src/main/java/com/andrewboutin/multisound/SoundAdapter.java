@@ -7,6 +7,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,7 +61,7 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
     }
 
     private void setUpEditButton(View convertView, final Sound sound){
-        Button editButton = (Button)convertView.findViewById(R.id.editButton);
+        final Button editButton = (Button)convertView.findViewById(R.id.editButton);
         editButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(final View v){
@@ -113,6 +114,8 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
                         dbHandler.updateSound(sound);
 
                         notifyDataSetChanged();
+
+                        Utility.hideSoftKeyboard(editButton);
 
                         Toast.makeText(v.getContext(), "Edited " + sound.getName(),
                                 Toast.LENGTH_SHORT).show();

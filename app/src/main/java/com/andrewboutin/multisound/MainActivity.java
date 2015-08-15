@@ -1,5 +1,6 @@
 package com.andrewboutin.multisound;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText nameEdit, fileEdit;
     private TextView nameText, fileText;
 
+    private InputMethodManager inputManager;
+
     // TODO: Comments
     // TODO: Default sound
     // TODO: ******Widget
@@ -38,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Utility.setUp(this.getApplicationContext());
+
+        inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
         dbHandler = DBHandler.getDbHandler(this);
 
@@ -64,10 +72,12 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 Sound sound = dbHandler.createSound(nameEdit.getText().toString(),
-                                                    fileEdit.getText().toString());
+                        fileEdit.getText().toString());
 
                 soundAdapter.add(sound);
                 soundAdapter.notifyDataSetChanged();
+
+                Utility.hideSoftKeyboard(addSoundButton);
 
                 Toast.makeText(v.getContext(), "Created " + sound.getName(),
                         Toast.LENGTH_SHORT).show();
