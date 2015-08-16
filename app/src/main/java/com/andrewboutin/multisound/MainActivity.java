@@ -1,6 +1,8 @@
 package com.andrewboutin.multisound;
 
+import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
 // TODO: Don't allow duplicate names
@@ -21,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private SoundAdapter soundAdapter;
     private ArrayList<Sound> sounds;
     private DBHandler dbHandler;
-    private EditText nameEdit, fileEdit;
-    private TextView nameText, fileText;
+    private EditText nameEdit;
+    private TextView nameText, fileText, fileChooser;
 
     // TODO: Comments
     // TODO: Default sound
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         addSoundButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String name = nameEdit.getText().toString();
-                String file = fileEdit.getText().toString();
+                String file = fileChooser.getText().toString();
 
                 if(name.equals("") || file.equals("")){
                     Toast.makeText(v.getContext(), "Requires a name and file!",
@@ -59,14 +62,13 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                Sound sound = dbHandler.createSound(nameEdit.getText().toString(),
-                        fileEdit.getText().toString());
+                Sound sound = dbHandler.createSound(name, file);
 
                 soundAdapter.add(sound);
                 soundAdapter.notifyDataSetChanged();
 
                 nameEdit.setText("");
-                fileEdit.setText("");
+                fileChooser.setText("");
 
                 Utility.hideSoftKeyboard(addSoundButton);
 
@@ -75,8 +77,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        fileChooser = (TextView)findViewById(R.id.fileChooser);
+        fileChooser.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent fileIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                fileIntent.setType("audio/*");
+                startActivityForResult(fileIntent, 1);
+            }
+        });
+
         nameEdit = (EditText)findViewById(R.id.nameEdit);
-        fileEdit = (EditText)findViewById(R.id.fileEdit);
 
         nameText = (TextView)findViewById(R.id.nameView);
         fileText = (TextView)findViewById(R.id.fileView);
@@ -94,12 +104,26 @@ public class MainActivity extends AppCompatActivity {
     private void setAppColors(){
         soundListView.getRootView().setBackgroundColor(getResources().getColor(android.R.color.black));
 
-        View[] views = new View[]{nameEdit, fileEdit, nameText, fileText, soundListView};
+        View[] views = new View[]{nameEdit, fileChooser, nameText, fileText, soundListView};
 
         Resources resources = getResources();
 
         for(View view: views)
             view.setBackgroundColor(resources.getColor(android.R.color.holo_green_dark));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                Uri uri = data.getData(); // full filepath
+                String filePath = uri.getPath();
+                ((TextView)findViewById(R.id.fileChooser)).setText(filePath);
+            }
+            if (resultCode == RESULT_CANCELED) {
+                ((EditText)findViewById(R.id.nameEdit)).setText("RESULT_CANCELED");
+            }
+        }
     }
 
     @Override
