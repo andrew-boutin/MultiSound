@@ -1,26 +1,18 @@
 package com.andrewboutin.multisound;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 // TODO: Don't allow duplicate names
 public class MainActivity extends AppCompatActivity {
@@ -32,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText nameEdit, fileEdit;
     private TextView nameText, fileText;
 
-    private InputMethodManager inputManager;
-
     // TODO: Comments
     // TODO: Default sound
     // TODO: ******Widget
@@ -44,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Utility.setUp(this.getApplicationContext());
-
-        inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
         dbHandler = DBHandler.getDbHandler(this);
 
@@ -76,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
                 soundAdapter.add(sound);
                 soundAdapter.notifyDataSetChanged();
+
+                nameEdit.setText("");
+                fileEdit.setText("");
 
                 Utility.hideSoftKeyboard(addSoundButton);
 
