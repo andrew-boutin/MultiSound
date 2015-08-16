@@ -2,7 +2,9 @@ package com.andrewboutin.multisound;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -29,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     // TODO: Comments
     // TODO: Default sound
-    // TODO: ******Widget
     // TODO: Come with one sound as an example
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,14 +117,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if(resultCode == RESULT_OK){
-                Uri uri = data.getData(); // full filepath
-                String filePath = uri.getPath();
+                Uri selectedImageURI = data.getData();
+                String filePath = new File(getRealPathFromURI(selectedImageURI)).getPath();
                 ((TextView)findViewById(R.id.fileChooser)).setText(filePath);
             }
             if (resultCode == RESULT_CANCELED) {
-                ((EditText)findViewById(R.id.nameEdit)).setText("RESULT_CANCELED");
+
             }
         }
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
     }
 
     @Override

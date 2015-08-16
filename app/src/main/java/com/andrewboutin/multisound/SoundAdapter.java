@@ -3,6 +3,7 @@ package com.andrewboutin.multisound;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -31,7 +33,7 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_sound, parent, false);
 
-        Sound sound = (Sound)getItem(index);
+        final Sound sound = (Sound)getItem(index);
 
         TextView name = (TextView) convertView.findViewById(R.id.tvName);
         name.setText(sound.getName());
@@ -48,8 +50,21 @@ public class SoundAdapter extends ArrayAdapter<Sound>{
             @Override
             public void onClick(View v){
                 // TODO: Play sound file
-                Toast.makeText(v.getContext(), "This will play the sound file!",
-                        Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "This will play the sound file!",
+                //        Toast.LENGTH_SHORT).show();
+
+                String filePath = sound.getFileName();
+
+                try {
+                    MediaPlayer mp = new MediaPlayer();
+                    mp.setDataSource(filePath);
+                    mp.prepare();
+                    mp.start();
+                }
+                catch(IOException e){
+                    Toast.makeText(v.getContext(), "Couldn't play sound! " + e.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
